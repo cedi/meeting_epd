@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package = "github.com/cedi/meeting_epd/protos";
+
+package com.cedi.meetingroom_display_epd;
+
+enum BusyState {
+    Busy = 0;
+    Tentative = 1;
+    Free = 2;
+}
+
+message CalendarEntry {
+    string title = 1;
+
+    // Represents seconds of UTC time since Unix epoch
+	// 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+	// 9999-12-31T23:59:59Z inclusive.
+	int64 start = 2;
+	int64 end = 3;
+    bool all_day = 4;
+    BusyState busy = 5;
+    bool important = 6;
+    string message = 7;
+}
+
+message CalendarResponse {
+    // Represents seconds of UTC time since Unix epoch
+	// 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+	// 9999-12-31T23:59:59Z inclusive.
+    int64 last_updated = 1;
+    repeated CalendarEntry entries = 4;
+}
+
+message CalendarRequest {
+}
+
+
+service CalenderService {
+    rpc GetCalendar(CalendarRequest) returns (CalendarResponse) {}
+}
