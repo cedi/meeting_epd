@@ -1,0 +1,71 @@
+calendars:
+  calendar1:
+    from: url
+    ical: https://emea.mail.microsoft.com/owa/calendar/1fb4770d246741f9926bd2cfb3b02747@microsoft.com/17a560ee019b49b8a9ed01f8e66edbcb16167665911229443183/calendar.ics
+
+server:
+  httpPort: 8080
+  grpcPort: 50051
+  server: ""
+  debug: false
+  refresh: 5m
+
+rules:
+  - name: "1:1s"
+    key: "title"
+    contains:
+      - Walter
+      - "1:1"
+      - "Cedric"
+    relabelConfig:
+      message: "1:1"
+      important: true
+
+  - name: "TL Meetings"
+    key: "title"
+    contains:
+      - "TL"
+    relabelConfig:
+      message: "Techlead Meeting"
+      important: true
+
+  - name: "Important Team Meetings"
+    key: "title"
+    contains:
+      - "mSDP SRE - Knowledge Sharing"
+    relabelConfig:
+      message: "Team Meeting"
+      important: true
+
+  - name: "Onboarding"
+    key: "title"
+    contains:
+      - "onboarding"
+    relabelConfig:
+      message: "Onboarding Session"
+
+  - name: "Team Meetings"
+    key: "title"
+    contains:
+      - "SCRUM"
+      - "Standup"
+    relabelConfig:
+      message: "Team Meeting"
+
+  - name: "Skip AllDay Events"
+    key: "all_day"
+    contains:
+      - "true"
+    skip: true
+
+  - name: "Skip non-blocking Events"
+    key: "busy"
+    contains:
+      - "Free"
+    skip: true
+
+  - name: "Catch All"
+    key: "*"
+    important: false
+    contains:
+      - "*"
